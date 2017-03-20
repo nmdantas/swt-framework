@@ -1,5 +1,5 @@
 /*
- * log data-access
+ * Log data access
  * 
  * Copyright(c) 2017 Fabbrika
  * Author: 2017-03-19 | Nicholas M. Dantas

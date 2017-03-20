@@ -12,13 +12,19 @@
  */
 var database    = require('mysql');
 var logService  = require('./log');
+var appService  = require('./app');
 
-module.exports = init;
+const CONNECTION_CONFIG = {
+    connectionLimit : process.env.DB_POOL_LIMIT,
+    host            : process.env.DB_HOST,
+    user            : process.env.DB_USER,
+    password        : process.env.DB_PASS,
+    database        : process.env.DB_BASE
+}; 
 
-function init(connectionConfig) {
-    var logConnectionPool = database.createPool(connectionConfig);
-    
-    return {
-        log: logService(logConnectionPool)
-    };
-}
+var connectionPool = database.createPool(CONNECTION_CONFIG);
+
+module.exports = {
+    log: logService(connectionPool),
+    app: appService(connectionPool)
+};

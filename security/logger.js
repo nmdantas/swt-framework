@@ -7,32 +7,35 @@
 
 'use strict';
 
-module.exports = function(applicationId, dataAccess) {
-    function saveDebug(message, source) {
-        dataAccess.log.add({
-            level: global.Application.LOG_LEVEL.Debug,
-            message: message,
-            source: source,
-            applicationId: applicationId
-        });
-    }
+/*
+ * Module dependencies.
+ */
+var logService  = require('./../data-access').log;
 
-    function saveError(exception, source) {
-        dataAccess.log.add({
-            level: global.Application.LOG_LEVEL.Exception,
-            message: exception.message,
-            source: source || '',
-            stackTrace: exception.stack,
-            applicationId: applicationId
-        });
-    }
-
-    return {
-        saveDebug: saveDebug,
-        saveError: saveError,
-        middleware: middleware
-    };
+module.exports = {
+    saveDebug: saveDebug,
+    saveError: saveError,
+    middleware: middleware
 };
+
+function saveDebug(message, source) {
+    logService.add({
+        level: global.Application.LOG_LEVEL.Debug,
+        message: message,
+        source: source,
+        applicationId: process.env.APPLICATION_ID
+    });
+}
+
+function saveError(exception, source) {
+    logService.add({
+        level: global.Application.LOG_LEVEL.Exception,
+        message: exception.message,
+        source: source || '',
+        stackTrace: exception.stack,
+        applicationId: process.env.APPLICATION_ID
+    });
+}
 
 function middleware() {
     return function(err, req, res, next) {
