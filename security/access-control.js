@@ -32,7 +32,12 @@ function checkAuthorization(req, res, next) {
     switch (authType) {
         case 'basic':
             var successCallback = () => {
-                next();
+                // Verifica se o token é da respectiva applicacao
+                if (key == process.env.APPLICATION_TOKEN) {
+                    next();
+                } else {
+                    sendUnauthorizedResponse();
+                }
             }
 
             var errorCallback = (error) => {
@@ -53,18 +58,19 @@ function checkAuthorization(req, res, next) {
             if (global.CacheManager.has(key)) {
                 next();
             } else {
-                res.status(401).json({
-                    errorCode: 401,
-                    errorMessage: 'Unauthorized'
-                });
+                sendUnauthorizedResponse();
             }
         break;
 
         default:
-            res.status(401).json({
-                errorCode: 401,
-                errorMessage: 'Unauthorized'
-            });
+            sendUnauthorizedResponse();
         break;
     }
+}
+
+function sendUnauthorizedResponse() {
+    res.status(401).json({
+        errorCode: 401,
+        errorMessage: 'Unauthorized'
+    });
 }
