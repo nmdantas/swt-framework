@@ -8,7 +8,8 @@
 /*
  * Module dependencies.
  */
-var dataAccess = require('./../data-access');
+var common      = require('./../common');
+var dataAccess  = require('./../data-access');
 
 module.exports = {
     enablePreflight: enablePreflight,
@@ -24,51 +25,36 @@ function enablePreflight(req, res, next) {
 }
 
 function checkAuthorization(req, res, next) {
-    var authorization = req.headers.authorization || '';
-    var authRegex = new RegExp(/(Basic|App)\s+/ig);
-    var authType = authRegex.test(authorization) ? authRegex.exec(authorization)[0].toLowerCase() : '';
-    var key = authorization.replace(authRegex, '').toLowerCase();
+    var authHeader = common.parseAuthHeader(req.headers.authorization);
 
-    switch (authType) {
+    switch (authHeader.type) {
         case 'basic':
-            var successCallback = () => {
-                // Verifica se o token é da respectiva applicacao
-                if (key == process.env.APPLICATION_TOKEN) {
-                    next();
-                } else {
-                    sendUnauthorizedResponse();
-                }
+            // Verifica se o token é da respectiva applicacao
+            if (authHeader.token == process.env.APPLICATION_TOKEN) {
+                next();
+            } else {
+                sendUnauthorizedResponse(req, res);
             }
-
-            var errorCallback = (error) => {
-                error = error || new Error();
-                error.code = 'APP004';
-
-                logManager.saveError(error, 'swtFramework.security.accessControl.checkAuthorization');
-                        
-                next(error);
-            }
-
-            // Verifica se a aplicacao existe
-            dataAccess.app.exists(key, successCallback, errorCallback);
         break;
 
         case 'app':
             // Verifica se o usuario esta logado
-            if (global.CacheManager.has(key)) {
+            if (global.CacheManager.has(authHeader.token)) {
                 next();
             } else {
-                sendUnauthorizedResponse();
+                sendUnauthorizedResponse(req, res);
             }
         break;
 
         default:
-            sendUnauthorizedResponse();
+            sendUnauthorizedResponse(req, res);
         break;
     }
 }
 
-function sendUnauthorizedResponse() {
+function sendUnauthorizedResponse(req, res) {
+    res.headers['WWW-Authenticate'] = 'Basic realm="' + process.env.APPLICATION_REALM + '"';
+
     res.status(401).json({
         errorCode: 401,
         errorMessage: 'Unauthorized'

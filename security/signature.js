@@ -10,25 +10,38 @@
 /*
  * Module dependencies.
  */
-var crypto = require('crypto-js');
+var crypto  = require('crypto');
+var random  = require('csprng');
 
-module.exports = generateToken;
+module.exports = {
+    token: generateToken,
+    salt: generateSalt,
+    password: generatePassword
+};
 
 /**
  * Expose 'generateToken(message: string): string'.
  */
 function generateToken(message) {
-    var key = (new Date()).toLocaleDateString() +
-              generateTimeStamp() +
-              generateNonce();
+    var salt = generateTimeStamp() + generateNonce();
 
-    return crypto.SHA256(message + key).toString();
+    return crypto.createHash('sha1').update(message + salt).digest('hex');
 }
 
 function generateTimeStamp() {
-    return (new Date().getSeconds() - new Date(1970, 0, 1).getSeconds()).toString();
+    return (new Date().getTime()).toString();
 }
 
 function generateNonce() {
     return (Math.random() * (9999999 - 123400) + 123400).toString();
+}
+
+function generateSalt() {
+    return random(128, 16).toUpperCase();
+}
+
+function generatePassword(salt, password) {
+    var key = crypto.pbkdf2Sync(password, salt, 1024, 256, 'sha256');
+    
+    return key.toString('hex');
 }

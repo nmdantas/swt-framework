@@ -12,6 +12,8 @@ global.CacheManager = require('lru-cache')({ /* A instancia de Gerenciador de Ca
     max: process.env.CACHE_MAX || Infinity,
     maxAge: process.env.CACHE_MAX_AGE || 1000 * 60 * 10 /* Tempo Default no Cache Atual - 10 minutos */
 });
+var common      = require('./common');
+var email       = require('./common/email');
 var linq        = require('./common/linq');
 var constants   = require('./common/constants');
 var logger      = require('./security/logger');
@@ -22,17 +24,18 @@ var authorize   = require('./security/roles-authorization');
 module.exports = {
     logger: {
         debug: logger.saveDebug,
-        error: logger.saveError
-    },
-    middlewares: {
-        log: logger.middleware,
-        authorize: authorize
+        error: logger.saveError,
+        middleware: logger.middleware
     },
     security: {
         signature: signature,
-        accessControl: access
+        authorize: authorize,
+        enablePreflight: access.enablePreflight,
+        checkAuthorization: access.checkAuthorization        
     },
     constants: {
         add: constants.add
-    }
+    },
+    email: email,
+    common: common
 };
