@@ -5,9 +5,18 @@
  * Author: 2017-03-25 | Nicholas M. Dantas
  */
 
+'use strict';
+
+/*
+ * Module dependencies.
+ */
+var validate    = require('validate.js');
+// Mensagem padrão para campo obrigatório
+validate.validators.presence.message = "é obrigatório(a)";
+
 module.exports = {
     parseAuthHeader: parseAuthHeader,
-
+    validate: validate
 };
 
 /**

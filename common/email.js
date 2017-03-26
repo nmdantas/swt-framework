@@ -11,6 +11,7 @@
  * Module dependencies.
  */
 var email   = require('emailjs');
+var models  = require('./../models');
 var logger  = require('./../security/logger');
 
 module.exports = {
@@ -67,7 +68,7 @@ function sendEmail(message, errorCallback) {
 }
 
 function defaultErrorCallback(error, message) {
-    error = error || new Error(message);
+    error = error || new models.SwtError({message: message});
 
     logger.saveError(error, 'swtFramework.common.email.send');    
 }

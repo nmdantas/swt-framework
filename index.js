@@ -5,6 +5,8 @@
  * Author: 2017-03-19 | Nicholas M. Dantas
  */
 
+'use strict';
+
 /*
  * Module dependencies.
  */
@@ -16,6 +18,7 @@ var common      = require('./common');
 var email       = require('./common/email');
 var linq        = require('./common/linq');
 var constants   = require('./common/constants');
+var models      = require('./models');
 var logger      = require('./security/logger');
 var signature   = require('./security/signature');
 var access      = require('./security/access-control');
@@ -37,5 +40,6 @@ module.exports = {
         add: constants.add
     },
     email: email,
+    models: models,
     common: common
 };
