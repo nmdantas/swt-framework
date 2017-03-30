@@ -31,8 +31,9 @@ module.exports = {
 function parseAuthHeader(authorization) {
     authorization = authorization || '';
 
-    var authRegex = new RegExp(/(Basic|App)\s+/ig);
-    var authType = authRegex.test(authorization) ? authRegex.exec(authorization)[0].toLowerCase() : '';
+    var authRegex = new RegExp(/(App|Basic|Bearer)\s+/ig);
+    var matches = authRegex.exec(authorization);
+    var authType = matches ? matches[1].toLowerCase() : '';
     var key = authorization.replace(authRegex, '').toLowerCase();
 
     return {
