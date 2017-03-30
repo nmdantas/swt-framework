@@ -25,7 +25,7 @@ module.exports = {
 function generateToken(message) {
     var salt = generateTimeStamp() + generateNonce();
 
-    return crypto.createHash('sha1').update(message + salt).digest('hex');
+    return crypto.createHash('sha256').update(message + salt).digest('hex');
 }
 
 function generateTimeStamp() {

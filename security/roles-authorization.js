@@ -11,6 +11,7 @@
  * Global dependencies.
  * CacheManager: LRU-Cache
  */
+var common = require('./../common');
 
 module.exports = authorize;
 
@@ -22,42 +23,45 @@ function authorize(roles) {
 
     // Deve retornar este middleware para tratamento do framework Express
     return function middleware(req, res, next) {
+        var authHeader = common.parseAuthHeader(req.headers.authorization);
+
         // Valida se ha o token da autorizacao
-        if (!req.headers.authorization || req.headers.authorization.indexOf('Basic ') == -1) {
-            res.status(401).json({
-                errorCode: 401,
-                errorMessage: 'Unauthorized'
-            });
+        if (authHeader.type !== 'basic') {
+            sendUnauthorizedResponse(req, res);
 
             return;
         }
 
-        // Obtem o token baseado no padrao 'Basic xptoLoremIpsum321'
-        var key = req.headers.authorization.split(' ')[1];
-
         // Verifica se o usuario esta no cache
-        if (global.CacheManager.has(key)) {
-            var userRoles = global.CacheManager.get(key).roles;
-            var isAuthorized = false;
+        if (global.CacheManager.has(authHeader.token)) {
+            var userRoles = global.CacheManager.get(authHeader.token).roles;
+            var authorized = false;
 
             // Percorre todas as Roles do usuario 
             // Se o usuario possuir ao menos uma das Roles do parametro de entrada permite prosseguir
             for (var i = 0; i < userRoles.length; i++) {
-                isAuthorized |= authorizedRoles.indexOf(userRoles[i]) > -1;
+                authorized |= authorizedRoles.indexOf(userRoles[i]) > -1;
             }
 
             // Chama o proximo middleware da cadeia de chamadas e usa o 'return' para prevenir qualquer propagacao
-            if (isAuthorized) {
+            if (authorized) {
                 next();
+
                 return;
             }
         }
         
         // Caso o codigo chegue a este ponto significa que falhou em todas 
         // as tentativas de autorizar o usuario e deve devolver que nao ha autorizacao
-        res.status(401).json({
-            errorCode: 401,
-            errorMessage: 'Unauthorized'
-        });
+        sendUnauthorizedResponse(req, res);
     }
+}
+
+function sendUnauthorizedResponse(req, res) {
+    res.headers['WWW-Authenticate'] = 'Basic realm="' + process.env.APPLICATION_REALM + '"';
+
+    res.status(401).json({
+        errorCode: 401,
+        errorMessage: 'Unauthorized'
+    });
 }

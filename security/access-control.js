@@ -28,16 +28,16 @@ function checkAuthorization(req, res, next) {
     var authHeader = common.parseAuthHeader(req.headers.authorization);
 
     switch (authHeader.type) {
-        case 'basic':
+        case 'app':
             // Verifica se o token é da respectiva applicacao
-            if (authHeader.token == process.env.APPLICATION_TOKEN) {
+            if (authHeader.token === process.env.APPLICATION_TOKEN) {
                 next();
             } else {
                 sendUnauthorizedResponse(req, res);
             }
         break;
 
-        case 'app':
+        case 'basic':
             // Verifica se o usuario esta logado
             if (global.CacheManager.has(authHeader.token)) {
                 next();
