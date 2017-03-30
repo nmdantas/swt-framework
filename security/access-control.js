@@ -53,7 +53,7 @@ function checkAuthorization(req, res, next) {
 }
 
 function sendUnauthorizedResponse(req, res) {
-    res.headers['WWW-Authenticate'] = 'Basic realm="' + process.env.APPLICATION_REALM + '"';
+    res.set('WWW-Authenticate', 'Basic realm="' + process.env.APPLICATION_REALM + '"');
 
     res.status(401).json({
         errorCode: 401,
