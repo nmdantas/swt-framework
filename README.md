@@ -1,10 +1,14 @@
 # SWT Framework
 
-  O framework base para qualquer aplicação SWT
+  [![NPM Version][npm-image]][downloads-url]
+  [![NPM Downloads][downloads-image]][downloads-url]
+  [![Linux Build][travis-image]][travis-url]
+
+O framework base para qualquer aplicação SWT
 
 ## Instalação
 ```bash
-$ npm install git+https://{user}@bitbucket.org/fabbrika/swt-framework.git
+$ npm install swt-framework
 ```
 	
 ## Features
@@ -67,3 +71,10 @@ app.listen(PORT);
 $ npm install
 $ npm test
 ```
+
+[npm-image]: https://img.shields.io/npm/v/swt-framework.svg
+[npm-url]: https://npmjs.org/package/swt-framework.svg
+[downloads-image]: https://img.shields.io/npm/dm/swt-framework.svg.svg
+[downloads-url]: https://npmjs.org/package/swt-framework
+[travis-image]: https://img.shields.io/travis/nmdantas/swt-framework/master.svg?label=linux
+[travis-url]: https://travis-ci.org/nmdantas/swt-framework
