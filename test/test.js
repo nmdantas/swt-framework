@@ -212,6 +212,9 @@ describe('Security', function() {
 describe('Email', function() {
     describe('#send()', function() {
         it('Não deve jogar uma exceção ao enviar um email com configurações válidas', function(done) {
+            // Timeout for operation
+            this.timeout(5000);
+
             var config = {
                 user:    'nicholas@fabbrika.com.br', 
                 password:'fabbrika01', 
@@ -227,7 +230,7 @@ describe('Email', function() {
                 subject: '>> [Testing emailjs]'
             };
 
-            email.send(message, (err, msg) => {
+            email.send(message, function(err, msg) {
                 if (err) {
                     done(err);
                 } else {
@@ -237,6 +240,9 @@ describe('Email', function() {
         });
 
         it('Deve jogar uma exceção ao enviar um email com configurações inválidas', function(done) {
+            // Timeout for operation
+            this.timeout(5000);
+            
             var config = {
                 user:    'invalido@fabbrika.com.br', 
                 password:'invalido', 
@@ -252,7 +258,7 @@ describe('Email', function() {
                 subject: '>> [Testing emailjs]'
             };
 
-            email.send(message, (err, msg) => {
+            email.send(message, function(err, msg) {
                 if (err) {
                     done();
                 } else {

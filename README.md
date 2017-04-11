@@ -2,7 +2,8 @@
 
   [![NPM Version][npm-image]][downloads-url]
   [![NPM Downloads][downloads-image]][downloads-url]
-  [![Linux Build][travis-image]][travis-url]
+  [![Build][travis-image]][travis-url]
+  [![Coverage Status][coveralls-image]][coveralls-url]
 
 O framework base para qualquer aplicação SWT
 
@@ -78,3 +79,5 @@ $ npm test
 [downloads-url]: https://npmjs.org/package/swt-framework
 [travis-image]: https://img.shields.io/travis/nmdantas/swt-framework/master.svg
 [travis-url]: https://travis-ci.org/nmdantas/swt-framework
+[coveralls-image]: https://img.shields.io/coveralls/nmdantas/swt-framework/master.svg
+[coveralls-url]: https://coveralls.io/github/nmdantas/swt-framework?branch=master
