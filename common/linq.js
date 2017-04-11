@@ -10,22 +10,28 @@
 // Solucao temporaria, não é ideal modificar o prototype de um tipo 'primitivo'
 Array.prototype.select = function (map) {
     var results = [];
-
+    var complexMap = typeof map === 'object';
+    
     // Percorre todas as chaves passadas na pesquisa e as procurara dentro da coleção
     for (var i = 0; i < this.length; i++) {
         var match = true;
         var element = this[i];
-        var newObject = {};
 
-        for (var key in map) {
-            if (typeof map[key] === 'string') {
-                newObject[key] = element[map[key]];
-            } else {
-                newObject[key] = map[key];
+        if (complexMap) {
+            var newObject = {};
+
+            for (var key in map) {
+                if (typeof map[key] === 'string') {
+                    newObject[key] = element[map[key]];
+                } else {
+                    newObject[key] = map[key];
+                }
             }
-        }
 
-        results.push(newObject);
+            results.push(newObject);
+        } else {
+            results.push(element[map]);
+        }
     }
     
     return results;

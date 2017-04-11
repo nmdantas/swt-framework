@@ -55,20 +55,25 @@ module.exports = {
  *    related     // an array of attachments that you want to be related to the parent attachment
  * }
  */
-function sendEmail(message, errorCallback) {
+function sendEmail(message, callback, config) {
+    config = config || {};
+
     var smtpClient = email.server.connect({
-        user     : process.env.MAIL_USER, 
-        password : process.env.MAIL_PASS, 
-        host     : process.env.MAIL_HOST, 
-        port     : process.env.MAIL_SSL ? null : process.env.MAIL_PORT,
-        ssl      : process.env.MAIL_SSL
+        user     : config.user || process.env.MAIL_USER, 
+        password : config.password || process.env.MAIL_PASS, 
+        host     : config.host || process.env.MAIL_HOST, 
+        port     : (config.ssl || process.env.MAIL_SSL) ? null : (config.port || process.env.MAIL_PORT),
+        ssl      : config.ssl || process.env.MAIL_SSL
     });
 
-    smtpClient.send(message, errorCallback || defaultErrorCallback);
+    smtpClient.send(message, callback || defaultCallback);
 }
 
-function defaultErrorCallback(error, message) {
-    error = error || new models.SwtError({message: message});
+function defaultCallback(error, message) {
+    // Verifica se houve erro
+    if (error) {
+        error = new models.SwtError({message: error.message});
 
-    logger.saveError(error, 'swtFramework.common.email.send');    
+        logger.saveError(error, 'swtFramework.common.email.send');
+    }
 }

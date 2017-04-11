@@ -7,6 +7,8 @@
 
 'use strict';
 
+var common = require('./../common');
+
 var connectionPool = null;
 
 exports = module.exports = initialize;
@@ -37,7 +39,7 @@ function add(logInfo) {
             SOURCE : logInfo.source,
             STACKTRACE : logInfo.stackTrace,
             INNEREXCEPTION : logInfo.innerException,
-            REGISTERDATE : new Date(),
+            REGISTERDATE : common.dateTime.now().format(),
             LOGARGS : logInfo.args,
             APP_ID : logInfo.applicationId
         };

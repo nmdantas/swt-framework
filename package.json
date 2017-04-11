@@ -1,10 +1,12 @@
 {
   "name": "swt-framework",
   "version": "0.0.1",
-  "description": "Framework fro SWT applications",
+  "description": "The base framework for any SWT application",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "deploy": "gcloud app deploy app.yaml",
+    "test": "mocha -R spec --timeout 5000"
   },
   "repository": {
     "type": "git",
@@ -22,7 +24,11 @@
     "emailjs": "^1.0.8",
     "express": "^4.15.2",
     "lru-cache": "^4.0.2",
+    "moment-timezone": "^0.5.13",
     "mysql": "^2.13.0",
     "validate.js": "^0.11.1"
+  },
+  "devDependencies": {
+    "mocha": "^3.2.0"
   }
 }

@@ -10,13 +10,21 @@
 /*
  * Module dependencies.
  */
-var validate    = require('validate.js');
+var moment   = require('moment-timezone');
+var validate = require('validate.js');
+
 // Mensagem padrão para campo obrigatório
 validate.validators.presence.message = "é obrigatório(a)";
 
 module.exports = {
     parseAuthHeader: parseAuthHeader,
-    validate: validate
+    validation: {
+        validate: validate,
+        requiredFor: requiredFor
+    },
+    dateTime: {
+        now: dateTimeNow
+    }
 };
 
 /**
@@ -31,7 +39,7 @@ module.exports = {
 function parseAuthHeader(authorization) {
     authorization = authorization || '';
 
-    var authRegex = new RegExp(/(App|Basic|Bearer)\s+/ig);
+    var authRegex = new RegExp(/([A-z]+)\s+/ig);
     var matches = authRegex.exec(authorization);
     var authType = matches ? matches[1].toLowerCase() : '';
     var key = authorization.replace(authRegex, '').toLowerCase();
@@ -40,4 +48,41 @@ function parseAuthHeader(authorization) {
         type: authType,
         token: key
     };
+}
+
+/**
+ * Create required constraints for the fields
+ * 
+ * requiredFor(fields: string[] | string...): Object 
+ * {
+ *     fields[1]: {
+ *         presence: true
+ *     },
+ *     fields[2]: {
+ *         presence: true
+ *     },
+ *     fields[n]: {
+ *         presence: true
+ *     }
+ * }.
+ */
+function requiredFor(fields) {
+    fields = Array.isArray(fields) ? fields : Array.prototype.slice.call(arguments);
+
+    var constraints = {};
+
+    for (var i = 0; i < fields.length; i++) {
+        constraints[fields[i]] = {
+            presence: true
+        };
+    }
+
+    return constraints;
+}
+
+/**
+ * Return the current date (moment-timezone object) of Brasil, São Paulo
+ */
+function dateTimeNow() {
+    return moment.tz('America/Sao_Paulo');
 }

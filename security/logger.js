@@ -38,20 +38,17 @@ function saveError(exception, source) {
     });
 }
 
-function middleware() {
-    return function(err, req, res, next) {
-
-        if (err instanceof models.SwtError) {
-            res.status(err.httpCode).json({
-                errorCode: err.code,
-                errorMessage: err.message || global.Application.ERROR_CODES[err.code],
-                errorDetails: err.details
-            });
-        } else {
-            res.status(500).json({
-                errorCode: err.code,
-                errorMessage: global.Application.ERROR_CODES[err.code] || ''
-            });
-        }
+function middleware(err, req, res, next) {
+    if (err instanceof models.SwtError) {
+        res.status(err.httpCode).json({
+            errorCode: err.code,
+            errorMessage: err.message || global.Application.ERROR_CODES[err.code],
+            errorDetails: err.details
+        });
+    } else {
+        res.status(500).json({
+            errorCode: err.code,
+            errorMessage: global.Application.ERROR_CODES[err.code] || ''
+        });
     }
 }
