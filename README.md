@@ -76,5 +76,5 @@ $ npm test
 [npm-url]: https://npmjs.org/package/swt-framework.svg
 [downloads-image]: https://img.shields.io/npm/dm/swt-framework.svg.svg
 [downloads-url]: https://npmjs.org/package/swt-framework
-[travis-image]: https://img.shields.io/travis/nmdantas/swt-framework/master.svg?label=linux
+[travis-image]: https://img.shields.io/travis/nmdantas/swt-framework/master.svg
 [travis-url]: https://travis-ci.org/nmdantas/swt-framework
