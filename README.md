@@ -5,6 +5,7 @@
   [![Build][travis-image]][travis-url]
   [![Coverage Status][coveralls-image]][coveralls-url]
   [![Dependencies Status][david-image]][david-url]
+  [![Code Climate][climate-image]][climate-url]
   [![NSP Status][nsp-image]][nsp-url]
 
 O framework base para qualquer aplicação SWT
@@ -85,5 +86,7 @@ $ npm test
 [coveralls-url]: https://coveralls.io/github/nmdantas/swt-framework?branch=master
 [david-image]: https://david-dm.org/nmdantas/swt-framework.svg
 [david-url]: https://david-dm.org/nmdantas/swt-framework
+[climate-image]: https://codeclimate.com/github/nmdantas/swt-framework/badges/gpa.svg
+[climate-url]: https://codeclimate.com/github/nmdantas/swt-framework
 [nsp-image]: https://nodesecurity.io/orgs/fabbrika/projects/7dd5b9a7-ad31-4c5b-bb12-29e3149a615a/badge
 [nsp-url]: https://nodesecurity.io/orgs/fabbrika/projects/7dd5b9a7-ad31-4c5b-bb12-29e3149a615a
