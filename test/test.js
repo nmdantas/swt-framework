@@ -207,6 +207,16 @@ describe('Security', function() {
             assert.notEqual(hashPassword, security.password(salt, invalidPassword))
         });
     });
+
+    describe('#signature.token()', function() {
+        it('Deve gerar token diferentes para a mesma chave', function() {            
+            var tokenKey = 'T0K&n';
+            var tokenA = security.token(tokenKey);
+            var tokenB = security.token(tokenKey);
+            
+            assert.notEqual(tokenA, tokenB)
+        });
+    });
 });
 
 describe('Email', function() {

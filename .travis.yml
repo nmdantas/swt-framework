@@ -1,6 +1,9 @@
 language: node_js
 node_js:
   - "7"
+addons:
+  code_climate:
+    repo_token: c7bcc4cc744e74b9ac29c5ffb9b7eeedcfa50a68
 cache:
   directories:
     - node_modules
@@ -13,3 +16,6 @@ before_install:
   - "test ! -d node_modules || npm rebuild"
 script: "npm run-script test-ci"
 after_script: "npm install coveralls && cat ./coverage/lcov.info | coveralls"
+after_success:
+  - npm install -g codeclimate-test-reporter
+  - codeclimate-test-reporter < ./coverage/lcov.info
