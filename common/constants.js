@@ -55,7 +55,7 @@ const ERROR_CODES = {
  */
 function addNew(key, data) {
     // Apenas inclui os novos dados as constantes caso nao existe a chave "key" no namespace
-    if (global.Application[key] == undefined) {
+    if (global.Application[key] === undefined) {
 
         global.Application[key] = data;
     } else {
