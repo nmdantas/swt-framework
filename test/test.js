@@ -39,13 +39,16 @@ describe('Array-LINQ', function() {
         it('Deve retornar um (array) do novo objeto mapeado com os valores correspondentes', function() {
             assert.deepEqual([{
                 numberProperty: 1,
-                stringProperty: '$tr!ng'
+                stringProperty: '$tr!ng',
+                birthDProperty: [24, 3, 1991]
             }], [{
                 UPPER_NUMBER_PROPERTY: 1,
-                UPPER_STRING_PROPERTY: '$tr!ng'
+                UPPER_STRING_PROPERTY: '$tr!ng',
+                ARRAY_COMPLEX_PROPERTY: [24, 3, 1991]
             }].select({
                 "numberProperty": "UPPER_NUMBER_PROPERTY",
-                "stringProperty": "UPPER_STRING_PROPERTY"
+                "stringProperty": "UPPER_STRING_PROPERTY",
+                "birthDProperty": "ARRAY_COMPLEX_PROPERTY"
             }));
         });
 
@@ -209,7 +212,7 @@ describe('Security', function() {
     });
 
     describe('#signature.token()', function() {
-        it('Deve gerar token diferentes para a mesma chave', function() {            
+        it('Deve gerar tokens diferentes para a mesma chave', function() {            
             var tokenKey = 'T0K&n';
             var tokenA = security.token(tokenKey);
             var tokenB = security.token(tokenKey);
