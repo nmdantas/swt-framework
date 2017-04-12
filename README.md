@@ -4,7 +4,7 @@
   [![NPM Downloads][downloads-image]][downloads-url]
   [![Build][travis-image]][travis-url]
   [![Coverage Status][coveralls-image]][coveralls-url]
-  [![Dependecies][david-image]][david-url]
+  [![Dependencies Status][david-image]][david-url]
   [![NSP Status][nsp-image]][nsp-url]
 
 O framework base para qualquer aplicação SWT
