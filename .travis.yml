@@ -3,7 +3,7 @@ node_js:
   - "7"
 addons:
   code_climate:
-    repo_token: c7bcc4cc744e74b9ac29c5ffb9b7eeedcfa50a68
+    repo_token: 92bed136c018a8e2118fbebbe89fa95ad9ded941704fb55f3af002ee99980cc5
 cache:
   directories:
     - node_modules
