@@ -36,7 +36,6 @@ function checkAuthorization(req, res, next) {
             } else {
                 return sendUnauthorizedResponse(req, res);
             }
-        break;
 
         case 'basic':
             // Verifica se o usuario esta logado
@@ -45,11 +44,9 @@ function checkAuthorization(req, res, next) {
             } else {
                 return sendUnauthorizedResponse(req, res);
             }
-        break;
 
         default:
             return sendUnauthorizedResponse(req, res);
-        break;
     }
 }
 
