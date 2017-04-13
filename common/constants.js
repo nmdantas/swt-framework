@@ -7,6 +7,8 @@
 
 'use strict';
 
+var models = require('./../models');
+
 module.exports = {
     add: addNew
 }
@@ -60,7 +62,7 @@ function addNew(key, data) {
         global.Application[key] = data;
     } else {
 
-        throw new Error('Key already present in Constants');
+        throw new models.SwtError({message: 'Key already present in Constants'});
     }
 }
 

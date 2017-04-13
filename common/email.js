@@ -15,7 +15,10 @@ var models  = require('./../models');
 var logger  = require('./../security/logger');
 
 module.exports = {
-    send: sendEmail
+    send: sendEmail,
+    defaults: {
+        callback: defaultCallback
+    }
 }
 
 /**

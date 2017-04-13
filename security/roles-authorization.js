@@ -12,6 +12,7 @@
  * CacheManager: LRU-Cache
  */
 var common = require('./../common');
+var accessControl = require('./access-control');
 
 module.exports = authorize;
 
@@ -27,9 +28,7 @@ function authorize(roles) {
 
         // Valida se ha o token da autorizacao
         if (authHeader.type !== 'basic') {
-            sendUnauthorizedResponse(req, res);
-
-            return;
+            return accessControl.unauthorize(req, res);
         }
 
         // Verifica se o usuario esta no cache
@@ -45,23 +44,12 @@ function authorize(roles) {
 
             // Chama o proximo middleware da cadeia de chamadas e usa o 'return' para prevenir qualquer propagacao
             if (authorized) {
-                next();
-
-                return;
+                return next();
             }
         }
         
         // Caso o codigo chegue a este ponto significa que falhou em todas 
         // as tentativas de autorizar o usuario e deve devolver que nao ha autorizacao
-        sendUnauthorizedResponse(req, res);
+        return accessControl.unauthorize(req, res);
     }
-}
-
-function sendUnauthorizedResponse(req, res) {
-    res.set('WWW-Authenticate', 'Basic realm="' + process.env.APPLICATION_REALM + '"');
-
-    res.status(401).json({
-        errorCode: 401,
-        errorMessage: 'Unauthorized'
-    });
 }

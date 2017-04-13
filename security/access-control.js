@@ -13,7 +13,8 @@ var dataAccess  = require('./../data-access');
 
 module.exports = {
     enablePreflight: enablePreflight,
-    checkAuthorization: checkAuthorization
+    checkAuthorization: checkAuthorization,
+    unauthorize: sendUnauthorizedResponse
 }
 
 function enablePreflight(req, res, next) {
@@ -33,7 +34,7 @@ function checkAuthorization(req, res, next) {
             if (authHeader.token === process.env.APPLICATION_TOKEN) {
                 return next();
             } else {
-                sendUnauthorizedResponse(req, res);
+                return sendUnauthorizedResponse(req, res);
             }
         break;
 
@@ -42,12 +43,12 @@ function checkAuthorization(req, res, next) {
             if (global.CacheManager.has(authHeader.token)) {
                 return next();
             } else {
-                sendUnauthorizedResponse(req, res);
+                return sendUnauthorizedResponse(req, res);
             }
         break;
 
         default:
-            sendUnauthorizedResponse(req, res);
+            return sendUnauthorizedResponse(req, res);
         break;
     }
 }

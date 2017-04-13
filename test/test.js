@@ -1,8 +1,9 @@
 require('./../common/linq');
-require('./../common/constants');
 
+var constants   = require('./../common/constants');
 var common      = require('./../common');
 var email       = require('./../common/email');
+var models      = require('./../models');
 var security    = require('./../security/signature');
 var assert      = require('assert');
 
@@ -127,6 +128,28 @@ describe('Array-LINQ', function() {
     });
 });
 
+describe('Constants', function() {
+    describe('#add()', function() {
+        it('Não deve jogar uma exceção ao adicionar uma nova constante', function() {
+            var newConstant = "SOMETHING THAT I CANNOT CHANGE";
+
+            constants.add("SOME_KEY", newConstant);
+
+            assert.equal(newConstant, global.Application.SOME_KEY);
+        });
+
+        it('Deve jogar uma exceção ao tentar alterar o valor de uma constante', function() {
+            assert.throws(function() {
+                var newConstant = "SOMETHING THAT I CANNOT CHANGE";
+                var anotherConstant = "SOMETHING THAT I WANT TO CHANGE";
+
+                constants.add("SAME_KEY", newConstant);
+                constants.add("SAME_KEY", anotherConstant);
+            }, models.SwtError);
+        });
+    });
+});
+
 describe('Common', function() {
     describe('#parseAuthHeader()', function() {
         it('Deve retornar o objeto ({type: authType, token: key}) de acordo com o (Authorization Header) passado', function() {
@@ -247,7 +270,11 @@ describe('Email', function() {
                 if (err) {
                     done(err);
                 } else {
-                    done();
+                    assert.doesNotThrow(function() {
+                        email.defaults.callback(err);
+
+                        done();
+                    });
                 }
             }, config);
         });
@@ -255,14 +282,7 @@ describe('Email', function() {
         it('Deve jogar uma exceção ao enviar um email com configurações inválidas', function(done) {
             // Timeout for operation
             this.timeout(5000);
-            
-            var config = {
-                user:    'invalido@fabbrika.com.br', 
-                password:'invalido', 
-                host:    'smtpout.secureserver.net', 
-                port:    465,
-                ssl:     true
-            };
+
             var message = {
                 text:    'I hope this works', 
                 from:    'Nick <nicholas@fabbrika.com.br>', 
@@ -273,11 +293,15 @@ describe('Email', function() {
 
             email.send(message, function(err, msg) {
                 if (err) {
-                    done();
+                    assert.throws(function() {
+                        email.defaults.callback(err);
+
+                        done();
+                    }, models.SwtError);
                 } else {
                     done(new Error());
                 }
-            }, config);
+            });
         });
     });
 });
