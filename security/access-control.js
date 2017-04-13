@@ -31,7 +31,7 @@ function checkAuthorization(req, res, next) {
         case 'app':
             // Verifica se o token é da respectiva applicacao
             if (authHeader.token === process.env.APPLICATION_TOKEN) {
-                next();
+                return next();
             } else {
                 sendUnauthorizedResponse(req, res);
             }
@@ -40,7 +40,7 @@ function checkAuthorization(req, res, next) {
         case 'basic':
             // Verifica se o usuario esta logado
             if (global.CacheManager.has(authHeader.token)) {
-                next();
+                return next();
             } else {
                 sendUnauthorizedResponse(req, res);
             }

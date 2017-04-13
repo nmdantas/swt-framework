@@ -17,7 +17,7 @@ exports = module.exports = initialize;
  * Expose 'initialize()'.
  */
 function initialize(pool) {
-    if (connectionPool == null)
+    if (connectionPool === null)
         connectionPool = pool;
 
     return {

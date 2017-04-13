@@ -21,10 +21,8 @@ Array.prototype.select = function (map) {
             var newObject = {};
 
             for (var key in map) {
-                if (typeof map[key] === 'string') {
+                if (map.hasOwnProperty(key) && typeof map[key] === 'string') {
                     newObject[key] = element[map[key]];
-                } else {
-                    newObject[key] = map[key];
                 }
             }
 
@@ -46,7 +44,9 @@ Array.prototype.where = function (predicate) {
         var element = this[i];
                 
         for (var key in predicate) {
-            match &= element[key] && element[key] === predicate[key];
+            if (predicate.hasOwnProperty(key)) {
+                match &= element[key] && element[key] === predicate[key];
+            }
         }
 
         // Caso tenha encontrado o elemento aborta o looping e retorna verdadeiro
@@ -70,7 +70,9 @@ Array.prototype.any = function (predicate) {
         var element = this[i];
                 
         for (var key in predicate) {
-            match &= element[key] && element[key] === predicate[key];
+            if (predicate.hasOwnProperty(key)) {
+                match &= element[key] && element[key] === predicate[key];
+            }
         }
 
         // Caso tenha encontrado o elemento aborta o looping e retorna verdadeiro
