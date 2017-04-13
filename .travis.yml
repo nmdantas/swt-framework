@@ -4,6 +4,10 @@ node_js:
 addons:
   code_climate:
     repo_token: 92bed136c018a8e2118fbebbe89fa95ad9ded941704fb55f3af002ee99980cc5
+deploy:
+  provider: npm
+  email: "n.moraes.dantas@gmail.com"
+  api_key: "YOUR_API_KEY"
 cache:
   directories:
     - node_modules
