@@ -228,7 +228,9 @@ describe('Security', function() {
             var rawPassword = 'P@$$w0rd';
             var invalidPassword = 'P@$$w0rD';
             var hashPassword = security.password(salt, rawPassword);
+            var hashWithOutSalt = security.password('', rawPassword);
             
+            assert.equal(hashWithOutSalt, security.password(null, rawPassword));
             assert.equal(hashPassword, security.password(salt, rawPassword));
             assert.notEqual(hashPassword, security.password(salt, invalidPassword))
         });

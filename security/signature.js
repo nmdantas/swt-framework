@@ -41,6 +41,9 @@ function generateSalt() {
 }
 
 function generatePassword(salt, password) {
+    // Previne que o Salt seja nulo
+    salt = salt || '';
+
     var key = crypto.pbkdf2Sync(password, salt, 1024, 128, 'sha256');
     
     return key.toString('hex');
