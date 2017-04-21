@@ -64,6 +64,16 @@ describe('Array-LINQ', function() {
                 "numberProperty": "UPPER_NUMBER_PROPERTY",
                 "stringProperty": "UPPER_STRING_PROPERTY"
             }));
+
+            assert.deepEqual([{
+                stringProperty: undefined
+            }], [{
+                __UPPER_NUMBER_PROPERTY__: 1,
+                __UPPER_STRING_PROPERTY__: '$tr!ng'
+            }].select({
+                numberProperty: 1,
+                "stringProperty": "UPPER_STRING_PROPERTY"
+            }));
         });
 
         it('Deve retornar um (array) simples com os valores correspondentes da propriedade passada', function() {
@@ -242,7 +252,7 @@ describe('Security', function() {
             var tokenA = security.token(tokenKey);
             var tokenB = security.token(tokenKey);
             
-            assert.notEqual(tokenA, tokenB)
+            assert.notEqual(tokenA, tokenB);
         });
     });
 });
@@ -270,7 +280,7 @@ describe('Email', function() {
 
             email.send(message, function(err, msg) {
                 if (err) {
-                    done(err);
+                    done(new models.SwtError('Send Email'));
                 } else {
                     assert.doesNotThrow(function() {
                         email.defaults.callback(err);
@@ -301,9 +311,26 @@ describe('Email', function() {
                         done();
                     }, models.SwtError);
                 } else {
-                    done(new Error());
+                    done(new models.SwtError('Send Email'));
                 }
             });
+        });
+
+        it('Deve executar o callback default quando não for passado', function(done) {
+            // Timeout for operation
+            this.timeout(5000);
+
+            var message = {
+                text:    'I hope this works', 
+                from:    'Nick <nicholas@fabbrika.com.br>', 
+                to:      'Ni <n.moraes.dantas@gmail.com>',
+                cc:      'Nicholas <nmdantas@brq.com>',
+                subject: '>> [Testing emailjs]'
+            };
+
+            email.send(message);
+
+            done();
         });
     });
 });

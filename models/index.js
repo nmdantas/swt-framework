@@ -22,6 +22,8 @@ function SwtError(options) {
         this.code = options.code;
         this.httpCode = options.httpCode || 500;
         this.details = options.details || {};
+    } else {
+        this.message = options;
     }
 }
 
