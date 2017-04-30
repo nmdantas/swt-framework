@@ -22,7 +22,11 @@ function enablePreflight(req, res, next) {
     res.setHeader('Access-Control-Allow-Methods', 'OPTIONS,GET,PUT,POST,DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'Authorization, Origin, Content-Type, Accept, X-Requested-With, Accept-Encoding');
 
-    next();
+    if (req.method === 'OPTIONS') {
+        res.end();
+    } else {
+        next();
+    }
 }
 
 function checkAuthorization(req, res, next) {
