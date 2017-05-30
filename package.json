@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/nmdantas/swt-framework#readme",
   "dependencies": {
+    "cloudinary": "^1.9.0",
     "csprng": "^0.1.2",
     "dotenv": "^4.0.0",
     "emailjs": "^1.0.8",

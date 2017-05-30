@@ -18,6 +18,7 @@ var common      = require('./common');
 var email       = require('./common/email');
 var linq        = require('./common/linq');
 var constants   = require('./common/constants');
+var media       = require('./common/media');
 var models      = require('./models');
 var logger      = require('./security/logger');
 var signature   = require('./security/signature');
@@ -41,5 +42,6 @@ module.exports = {
     },
     email: email,
     models: models,
-    common: common
+    common: common,
+    media: media
 };

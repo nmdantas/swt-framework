@@ -49,7 +49,10 @@ const ERROR_CODES = {
     "APP002": "Aplicação já existente na base de dados.",
     "APP003": "Ocorreu um erro durante a persistencia no banco de dados.",
     "APP004": "Aplicação não existente.",
-    "APP005": "Argumentos de chamandas inválidos."
+    "APP005": "Argumentos de chamandas inválidos.",
+    /* MEDIA */
+    "MED001": "Não foi possível conectar ao servidor.",
+    "MED002": "Não foi possível gravar a imagem no servidor."
 };
 
 /**
