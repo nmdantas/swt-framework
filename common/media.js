@@ -26,7 +26,7 @@ module.exports = {
  * Upload image to Cloudinary.
  * 
  */
-function uploadImage(image, callback, config) {
+function uploadImage(image, config) {
     
     configCloudinary();
 
@@ -34,7 +34,7 @@ function uploadImage(image, callback, config) {
     config.folder = config.folder || process.env.CLOUDINARY_FOLDER;
     config.phash = true;
 
-    cloudinary.uploader.upload(image, callback, config);
+    return cloudinary.uploader.upload(image, config);
 }
 
 /**
@@ -43,14 +43,22 @@ function uploadImage(image, callback, config) {
  */
 function getPhash(image, callback) {
     
-    uploadImage(image, function(error, result) {
-        
-        if (!error){
-            deleteImage(result);
-        }
+    configCloudinary();
 
-        callback(error, result);
-    });
+    var config = {
+        folder: process.env.CLOUDINARY_FOLDER + '/find'
+    };
+
+    uploadImage(image, config)
+        .then(function(image) {
+            deleteImage(image);
+
+            callback(image.pHash);
+        }, function(error) {
+            error = new models.SwtError({message: error.message});
+
+            logger.saveError(error, 'swtFramework.common.media.getPhash');
+        });
 }
 
 function deleteImage(image) {
@@ -63,8 +71,8 @@ function deleteImage(image) {
 function configCloudinary() {
 
     cloudinary.config({ 
-        cloud_name: process.env.APPLICATION_NAME, 
-        api_key: process.env.APPLICATION_KEY, 
-        api_secret: process.env.APPLICATION_SECRET
+        cloud_name: process.env.CLOUDINARY_NAME, 
+        api_key: process.env.CLOUDINARY_KEY, 
+        api_secret: process.env.CLOUDINARY_SECRET
     });
 }
