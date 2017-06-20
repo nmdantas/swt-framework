@@ -18,7 +18,8 @@ configCloudinary();
 module.exports = {
     image: {
         upload: uploadImage,
-        pHash: getPhash
+        pHash: getPhash,
+        remove: removeImage
     }
 }
 
@@ -51,7 +52,7 @@ function getPhash(image, callback) {
 
     uploadImage(image, config)
         .then(function(image) {
-            deleteImage(image);
+            removeImage(image.public_id);
 
             callback(image.pHash);
         }, function(error) {
@@ -61,11 +62,11 @@ function getPhash(image, callback) {
         });
 }
 
-function deleteImage(image) {
+function removeImage(publicId) {
 
-    cloudinary.api.delete_resources([image.public_id], function () {
-        console.log('** IMAGE FIND REMOVED');
-    });
+    configCloudinary();
+
+    return cloudinary.api.delete_resources([publicId]);
 }
 
 function configCloudinary() {
