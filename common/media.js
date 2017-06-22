@@ -54,7 +54,7 @@ function getPhash(image, callback) {
         .then(function(image) {
             removeImage(image.public_id);
 
-            callback(image.pHash);
+            callback(image.phash);
         }, function(error) {
             error = new models.SwtError({message: error.message});
 
