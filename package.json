@@ -1,6 +1,6 @@
 {
   "name": "swt-framework",
-  "version": "0.1.9",
+  "version": "0.2.0",
   "description": "The base framework for any SWT application",
   "main": "index.js",
   "scripts": {
