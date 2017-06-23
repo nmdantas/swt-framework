@@ -45,10 +45,15 @@ function middleware(err, req, res, next) {
             errorMessage: err.message || global.Application.ERROR_CODES[err.code],
             errorDetails: err.details
         });
-    } else {
+    } else if (err.code) {
         res.status(500).json({
             errorCode: err.code,
             errorMessage: global.Application.ERROR_CODES[err.code] || ''
+        });
+    } else {
+        res.status(500).json({
+            errorCode: err.status,
+            errorMessage: err.message
         });
     }
 }
